@@ -1,0 +1,34 @@
+{
+  "name": "mohar",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mohar — evidence-based skill verification. Prove skills from real code, not self-reported CVs.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "verify": "tsx apps/cli/src/verify.ts",
+    "profile": "tsx apps/cli/src/profile.ts",
+    "eval": "tsx eval/score.ts",
+    "test": "tsx packages/workflows/src/readiness.test.ts",
+    "typecheck": "tsc --noEmit",
+    "api": "tsx apps/api/src/server.ts",
+    "infra:up": "docker compose up -d postgres ollama",
+    "infra:down": "docker compose down",
+    "models:pull": "ollama pull qwen2.5:7b-instruct",
+    "models:pull:embed": "ollama pull bge-m3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ollama": "^0.5.11",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.23.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

@@ -1,0 +1,37 @@
+# Mohar — local, fully self-hosted infrastructure.
+# Everything here is open-source and runs on your own machine. No proprietary AI APIs.
+#
+#   docker compose up -d postgres ollama
+#   docker exec -it mohar-ollama ollama pull qwen2.5:7b-instruct
+#   docker exec -it mohar-ollama ollama pull bge-m3
+#
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: mohar-postgres
+    environment:
+      POSTGRES_USER: mohar
+      POSTGRES_PASSWORD: mohar
+      POSTGRES_DB: mohar
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mohar"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: mohar-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    # GPU optional; CPU works for 7B models in a demo.
+
+volumes:
+  pgdata:
+  ollama:
